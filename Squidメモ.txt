@@ -1,0 +1,19 @@
+Squid Windows メモ
+
+入手
+http://squid.acmeconsulting.it/download/dl-squid.html
+
+zipを展開し、c:\Squidに移動
+
+キャッシュ作成
+squid.exe -z
+
+実行
+squid.exe
+
+Windowsサービス登録
+squid.exe -i (管理アカウント)
+
+Windowsサービス削除
+squid.exe -r (管理アカウント)
+

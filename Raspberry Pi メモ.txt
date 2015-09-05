@@ -1,0 +1,78 @@
+Raspberry Pi メモ
+
+[インストール関連(ディスプレイ/KBD/Mouseなし)]
+SDカードに直接インストール
+・公式サイトからRaspbianのイメージ取得(800M)
+・SDカードは、SDFormatterでフォーマット
+・Win32DiskImagerで、イメージをSDカードにWrite
+・Raspberry Piに挿してから電源を入れる
+・DHCPでIP取得して立ち上がる
+・xfinder.exeで探すかpingで探す。macが b8:27:…らしい。
+・sshでログインする(user/pass = pi/raspberry)
+
+インストール後 sudo raspi-config
+・SDカードが全て使える(最初は4G用になっているのでrootが小さく見える)
+・Languageの設定
+・ビデオメモリ調整
+
+パッケージの最新化
+  apt-get update  apt-get upgrade
+
+[apt関連]
+インストール apt-get install xxxxx
+  -s: 実行シミュレーション
+  -f: 整合性無視、強制実行
+  --reinstall: 再インストール
+削除　apt-get autoremove xxxx
+  --purgeを付けると設定ファイルなどすべて削除
+  -sも有効
+パッケージ情報の表示 apt-cache ----
+  show xxxx: 情報の表示
+  showpkg xxxx: 依存関係など
+  search xxxx: キーワードで検索
+ インストールされたパッケージ一覧
+  dpkg -l
+パッケージのファイル一覧
+  dkpg -L xxxx
+
+[システム関連]
+サービスの起動 sudo service xxxx start/stop/restart
+自動起動  insserv -d xxxx (-d:デフォルト起動/-r:起動しない)
+
+[Samba関連]
+[public]
+    path = /mnt/hdd1/public_dir
+    writeable = yes
+    browseable = yes
+    public = yes
+
+[Wifi]
+Planex GW-USNANO2A 挿す
+	wpa_passphrase SID key
+	→出力される
+	network={
+	        ssid="SID"
+	        #psk="key"
+	        psk=296c76865abc699f51508601196af9f3e1f4d1984751c611e60036cbe804f591
+	}
+
+	上記を下記ファイルに追記
+	/etc/wpa_supplicant/wpa_supplicant.conf
+
+	/etc/network/interfaces
+	wlan0のところを修正
+
+	auto wlan0
+	allow-hotplug wlan0
+	iface wlan0 inet dhcp
+	wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+	iface default inet dhcp
+
+	ifdown wlan0
+	ifup wlan0
+	iwconfigで確認
+
+無線のパワーマネージメント無効化
+	/etc/modprobe.d/8192cu.conf
+	# Disable power saving
+	options 8192cu rtw_power_mgnt=0 rtw_enusbss=1 rtw_ips_mode=1

@@ -1,0 +1,115 @@
+PWM・サーボなどメモ
+
+メモ：ハードPWMはA+/B+なら2ピン使用可能らしい
+Raspberry Pi Model BではハードウェアPWM信号はGPIO 18からの1つのみしか出力できなかったのですが、Raspberry Pi Model B+以降（Raspberry Pi 2 Model B含む）では、ハードウェアPWM信号を2つ出力できます。
+
+下図のように、１つ目のPWM0はGPIO 18かGPIO 12のどちらかから、2つ目のPWM1はGPIO 13かGPIO 19のどちらかから出力できます。
+
+[ライブラリ追加]
+Python
+sudo apt-get install python-rpi.gpio → インストール済みだった
+
+python系のインストール追加
+	sudo apt-get install python-setuptools
+	sudo easy_install -U RPIO
+
+webIOPi
+	wget http://sourceforge.net/projects/webiopi/files/WebIOPi-0.7.1.tar.gz
+	tar xvfz WebIOPi-0.7.1.tar.gz
+	sudo ./setup.sh
+		いろいろなパッケージの取得&インストール…
+
+wiringPi
+インストール
+	git clone git://git.drogon.net/wiringPi
+	cd wiringPi
+	./build
+
+[GPIO動作確認]
+とりあえずwiringPiを使ってGPIOの出力テストを行う
+
+wiringPiコマンド(gpio)
+	gpio readall
+	gpio -g mode 17 out
+		BCM(Broadcom)GPIO_17番(Pi11番)のモードをoutにする
+	gpio -g write 17 0
+		BCM表記17番 を0にwrite
+		→テスターでGND⇔ビン間に約5Vが出力されていることを確認
+
+[モータードライバ(TA8428K)]
+TOSHIBA TA8428Kを使って、モーターON/OFF+速度制御のテストを行う
+
+ハードウェアPWM (GPIO_18/Pin12)
+	※ A+/B+は精度の高いハードPWMは2CH(GPIO_18/12、GPIO_13/Pin33)使用できる
+	gpio -g mode 18 pwm
+		18pinを pwmにする(readallの表示でModeがALTになる)
+	gpio pwm-ms
+		ハードpwmのモードをmsにする
+	gpio -g pwm 18 1024
+		100%出力
+	gpio -g pwm 18 512
+		50%出力
+	gpio -g pwm 18 256
+		25%出力
+TA8428K (…仕様書がわかりにくい)
+	Pinは正面からみて左が1…右が7
+	ピン配
+	1Pin: 正転の制御信号、ここにGPIO_18を接続しPWM制御した信号を付加すると出力が変化する
+	2Pin: 1Pinと同様の逆転用信号、1モーターならGPIO_13を接続すると逆転もPWMで速度制御できる
+	3Pin: モーターの＋端子へ接続
+	4Pin: GND(－)
+	5Pin: モーターの－端子へ接続、1Pin,2Pinの制御により3-5Pin間に制御された電圧が付加される
+	6Pin: 未使用
+	7Pin: 電源(＋)
+
+[サーボ制御]
+SG92R(SG90互換?)を使って、サーボ制御のテストを行う
+※ サーボ用の電源は、Piから取らないで別電源とする(Piがフリーズする)
+   USB電源(+)をサーボ赤、(-)を黒、信号をオレンジに接続し、USB電源(-)とPiのGNDを接続する
+…作業中
+
+とりあえず動いたソース(python)
+	---------------
+	import webiopi
+	from RPIO import PWM
+	import time
+
+	GPIO = webiopi.GPIO
+	servo = PWM.Servo()
+	SERVO_X = 23
+
+	def setup():
+	    GPIO.output(SERVO_X, GPIO.LOW)
+
+	servo.set_servo(SERVO_X, 1500)
+	time.sleep(1)
+	servo.set_servo(SERVO_X, 1100)
+	time.sleep(1)
+	servo.set_servo(SERVO_X, 800)
+
+	def destroy():
+	    GPIO.digitalWrite(SERVO_X, GPIO.LOW)
+	---------------
+	※ 上記の数値を変化させることでサーボの位置が変わる。上記サンプルなら400～2400で約0～180度の変化を得た
+	
+java(pi4j)で挑戦
+	ドキュメント
+	http://pi4j.com/usage.html
+	JavaDoc
+	http://pi4j.com/apidocs/index.html
+javaインストール
+	sudo apt-get install openjdk-7-jdk
+	結構たくさん入る
+pi4jインストール(展開のみ)
+	wget http://get.pi4j.com/download/pi4j-1.0.zip
+	unzip pi4j-1.0.zip
+	pi4j…libを/opt/pi4j/libとしてコピーしCLASSPATHを/opt/pi4j/lib/*.jarに設定
+	
+	結果
+	pi4jではうまくいかない。pi4jにはサーボ系のAPI(機能)がまだ不十分?、Ver1.0だから仕方がないか
+	サーボの動作原理がきちんと理解できていないため何を制御することが必要かはっきりしない
+	
+	最終的にブラウザ経由で制御する事を考えると、web系技術が良いと思いpi4j(Java)に挑戦したがダメなので、別の実装系を選択する。
+	C系はWebとの相性が良くないイメージなので、RubyかPythonになるかな。
+	つづく…
+	
