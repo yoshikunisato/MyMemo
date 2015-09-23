@@ -1,0 +1,179 @@
+Raspberry Pi 2 B にRedmine+Backlogsをインストール
+
+インストール結果は下記となる
+	Environment:
+	  Redmine version                2.3.2.stable
+	  Ruby version                   1.9.3-p194 (2012-04-20) [arm-linux-eabihf]
+	  Rails version                  3.2.13
+	  Environment                    production
+	  Database adapter               Mysql2
+	Redmine plugins:
+	  redmine_backlogs               v1.0.6
+
+参考ページ
+http://002t.blog.so-net.ne.jp/2014-09-02
+http://d.hatena.ne.jp/o_nibe/20131031
+
+使用したRaspbian
+2015-05-05-raspbian-wheezy.img
+
+
+○MySql
+apt-get install mysql-server
+	mysql-server
+	pass:mysql
+
+apt-get install libmysql++-dev
+
+○Redmine 取得
+wget http://www.redmine.org/releases/redmine-2.3.2.tar.gz
+
+cd /usr/local
+tar xvfz ~/redmine-2.3.2.tar.gz
+ln -s redmine-2.3.2 redmine
+
+○DB作成
+	mysql -uroot -pmysql
+	CREATE DATABASE redmine CHARACTER SET utf8;
+	CREATE USER 'redmine'@'localhost' IDENTIFIED BY 'redmine';
+	GRANT ALL PRIVILEGES ON redmine.* TO 'redmine'@'localhost'; 
+
+○必要なpkg取得
+
+apt-get install rubygems
+
+apt-get install ruby-dev
+
+cd redmine/config
+cp database.yml.example database.yml
+
+vi database.yml
+⇒passwdの修正
+
+#apt-get install ruby--3.2 redmine-mysql
+
+apt-get install ruby-rails-3.2 redmine-mysql
+
+apt-get install imagemagick libmagickcore-dev libmagickwand-dev
+
+export PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig/
+
+gem install bundler --no-rdoc --no-ri
+
+gem install rmagick -v '2.15.4'
+…すごく時間がかかる
+
+
+○Redmineインストール
+
+cd /usr/local/redmine/
+bundle install --without development test
+
+rake generate_secret_token
+
+RAILS_ENV=production rake db:migrate
+
+RAILS_ENV=production rake redmine:load_default_data
+
+ここまで成功したら動作確認 (admin/admin)
+ruby script/rails server webrick -e production
+
+http://host:3000/
+
+○Passengerインストール
+
+gem install passenger
+
+apt-get install ruby-passenger libapache2-mod-passenger apache2
+
+apt-get install libapr1-dev libaprutil1-dev apache2-threaded-dev libcurl4-openssl-dev
+
+passenger-install-apache2-module
+…すごく時間がかかる
+
+vi passenger.conf
+	LoadModule passenger_module /var/lib/gems/1.9.1/gems/passenger-5.0.18/buildout/apache2/mod_passenger.so
+	PassengerRoot  /var/lib/gems/1.9.1/gems/passenger-5.0.18
+	PassengerRuby /usr/bin/ruby
+	RackBaseURI /redmine
+
+vi /etc/apache2/mods-enabled/passenger.load
+	LoadModuleをコメントアウトする
+
+
+chown -R www-data:www-data /usr/local/redmine-2.3.2
+
+ln -s /usr/local/redmine/public /var/www/redmine
+
+○Backlogs
+http://qiita.com/tkeydll/items/eef45760905f7a5f9908
+http://www.inamuu.com/?p=355
+http://www.redminebacklogs.net/en/installation.html
+
+cd /usr/local/redmine/plugins
+git clone git://github.com/backlogs/redmine_backlogs.git
+git checkout v1.0.6
+
+cd /usr/local/redmine
+export RAILS_ENV=production
+
+gem install icalendar
+
+apt-get install libxslt-dev
+
+↓とりあえずこうやった たぶん不要、bundle installで自動的にnokogiri 1.5.11がインストールされる
+#gem install nokogiri -v '1.6.0'
+
+↓netにはこう書いてあるがやらなかった
+#gem install nokogiri -- --use-system-libraries=true --with-xml2-include=/usr/include/libxml2
+
+※ prawn 最新版はruby2.0系でしか使えないので古いバージョンをインストールしGemfileを修正
+gem install prawn -v '1.3.0'
+vi /usr/local/redmine/plugins/redmine_backlogs/Gemfile
+gem "prawn"の行をコメントアウト
+
+bundle install --no-deployment
+うまくいったら…
+	/usr/local/redmine/plugins/redmine_backlogs/Gemfile のコメントを戻して
+
+bundle exec rake db:migrate
+
+bundle exec rake tmp:cache:clear
+bundle exec rake tmp:sessions:clear
+
+○Backlogsの設定
+
+bundle exec rake redmine:backlogs:install
+
+うまくいったら…
+
+chown -R www-data:www-data /usr/local/redmine/public/plugin_assets
+
+service apache2 restart
+
+FINISH
+
+「追加」
+○Redmine-2.3.2、ガントチャートに日付を表示
+http://azurite.hatenablog.jp/entry/2013/12/05/Redmine-2.3.2%E3%80%81%E3%82%AC%E3%83%B3%E3%83%88%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88%E3%81%AB%E6%97%A5%E4%BB%98%E3%82%92%E8%A1%A8%E7%A4%BA
+
+パッチファイルを/tmp/において
+
+cd /usr/local/redmine/app/views/gantts
+patch < /tmp/gistfile1.diff
+
+
+○redmine_importer
+https://github.com/leovitch/redmine_importer/wiki
+
+cd /usr/local/redmine/plugins
+git clone git://github.com/zh/redmine_importer.git
+
+cd redmine_importer/
+git checkout
+
+gem install fastercsv -v '1.5.3'
+
+rake redmine:plugins:migrate RAILS_ENV=production
+
+Redmineの再起動
