@@ -1,0 +1,64 @@
+Apacheにクライアント証明書を要求する
+
+メモ：bitnamiの場合は、既にサーバ証明、秘密鍵、などインストール時に用意されている
+	このままだとサーバ名などが合わないので、同じファイル名になるように作り直す
+	-r-------- 1 bitnami root    546  7月 10 23:01 server.csr
+	-rw-r--r-- 1 bitnami root   1041  7月 10 23:01 privkey.pem
+	-r-------- 1 bitnami root    887  7月 10 23:01 server.key
+	-r-------- 1 bitnami root    639  7月 10 23:01 server.crt
+	Apacheの設定として
+	/opt/bitnami/apache2/conf/httpd.conf内の下記行のコメントアウトすればよい
+	#Include conf/extra/httpd-ssl.conf
+	※ server.crtがクライアント用の証明書、ブラウザへのインストール要
+	
+
+http://qiita.com/SYABU555/items/ed9cf1d9f3d431057d0a
+
+ec2-52-69-190-15.ap-northeast-1.compute.amazonaws.com
+
+cd /opt/bitnami/apache2/conf
+
+▷ openssl genrsa -des3 -out privkey.pem 1024
+
+	Generating RSA private key, 1024 bit long modulus
+	.............++++++
+	......++++++
+	e is 65537 (0x10001)
+	Enter pass phrase for /opt/bitnami/apache2/conf/privkey.pem:
+	Verifying - Enter pass phrase for /opt/bitnami/apache2/conf/privkey.pem:
+
+▷ openssl req -new -key privkey.pem -out cert.csr
+
+	Enter pass phrase for privkey.pem:
+	You are about to be asked to enter information that will be incorporated
+	into your certificate request.
+	What you are about to enter is what is called a Distinguished Name or a DN.
+	There are quite a few fields but you can leave some blank
+	For some fields there will be a default value,
+	If you enter '.', the field will be left blank.
+	-----
+	Country Name (2 letter code) [AU]:JP
+	State or Province Name (full name) [Some-State]:Tokyo
+	Locality Name (eg, city) []:Hino
+	Organization Name (eg, company) [Internet Widgits Pty Ltd]:FujiElectric co,ltd.
+	Organizational Unit Name (eg, section) []:
+	Common Name (e.g. server FQDN or YOUR name) []:ec2-52-69-190-15.ap-northeast-1.compute.amazonaws.com
+	Email Address []:
+
+	Please enter the following 'extra' attributes
+	to be sent with your certificate request
+	A challenge password []:
+	An optional company name []:
+
+▷ openssl rsa -in privkey.pem -out server.key
+
+	Enter pass phrase for privkey.pem:
+	writing RSA key
+
+▷ openssl x509 -in cert.csr -out server.crt -req -signkey server.key -days 3650
+
+	Signature ok
+	subject=/C=JP/ST=Tokyo/L=Hino/O=FujiElectric co,ltd./CN=ec2-52-69-190-15.ap-northeast-1.compute.amazonaws.com
+	Getting Private key
+
+…うまくいかず

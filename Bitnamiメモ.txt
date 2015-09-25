@@ -1,0 +1,19 @@
+Bitnami Redmie に Backlogsをインストールする
+
+使用したVM
+
+Ubuntu 14.04.1 (HVM) Asia Pacific (Tokyo)
+Redmine 2.6.6-0 (64-bit)
+※ Redmine 3.1は新しすぎて失敗する
+
+How to enable sshd?
+$ sudo mv /etc/init/ssh.conf.back /etc/init/ssh.conf
+$ sudo start ssh
+
+locale-gen ja_JP.UTF-8 
+/usr/sbin/update-locale LANG=ja_JP.UTF-8
+
+/opt/bitnami/apps/redmine/htdocs
+
+http://qiita.com/tkeydll/items/eef45760905f7a5f9908
+
