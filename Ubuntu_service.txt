@@ -1,0 +1,89 @@
+Ubuntuで、起動時に自動実行するプロセスを作成する
+※ 本来のやり方を考える
+参考：http://jyakusyouse.blog.fc2.com/blog-entry-9.html
+　　  http://blog.hrendoh.com/daemonize-java-app-with-start-stop-daemon/
+　　  
+○サービスのスケルトン
+	/etc/init.d/skeleton
+	これをコピーして、適当な名称とし、内容を編集する
+	→javaだとうまくいかないので参考を見て下記[内容]とした
+
+○init.dへのシンボリックリンク作成
+	update-rc.d iotrequestbroker defaults
+	※ S20,K20として作成された
+
+○内容
+	#!/bin/sh
+
+	### BEGIN INIT INFO
+	# Provides:          RequestBroker
+	# Required-Start:    $remote_fs $syslog $network
+	# Required-Stop:     $remote_fs $syslog
+	# Default-Start:     2 3 4 5
+	# Default-Stop:      0 1 6
+	# Short-Description: IoT sensor data RequestBroker
+	# Description:       IoT sensor data RequestBroker
+	# placed in /etc/init.d.
+	### END INIT INFO
+
+	PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+	appdir=/usr/local/java
+	java=/usr
+	prog=requestBroker
+	pidfile=/var/run/${prog}.pid
+	logfile=/var/log/${prog}.log
+
+	daemon="${java}/bin/java"
+	args="-jar RequestBroker.jar"
+
+	. /lib/lsb/init-functions
+
+	RETVAL=0
+
+	# System configuration
+	unset TMPDIR
+
+	start() {
+	    echo -n "Starting ${prog} services: "
+	    # cheking already run?
+	    if start-stop-daemon --stop --quiet --signal 0 --pidfile $pidfile
+	    then
+	      pid=`cat ${pidfile}`
+	      log_warning_msg "daemon is already running? (pid=${pid})"
+	      exit 1
+	    fi
+	    start-stop-daemon --start --background --quiet --oknodo --pidfile $pidfile --make-pidfile --chdir ${appdir} --startas ${daemon} -- ${args} >> ${logfile}
+	    status=$?
+	    log_end_msg $status
+	}
+	stop() {
+	    log_daemon_msg -n $"Stopping ${prog} service: "
+	    # cheking already run?
+	    if start-stop-daemon --stop --quiet --signal 0 --pidfile $pidfile ; then
+	        start-stop-daemon --stop --pidfile $pidfile
+	        status=$?
+	        rm -f $pidfile
+	        log_end_msg $status
+	    else
+	        log_warning_msg "daemon not running? (check ${pidfile})."
+	    fi
+	}
+	case "$1" in
+	     start)
+	          start
+	          ;;
+	     stop)
+	          stop
+	          ;;
+	     restart)
+	          stop
+	          start
+	          ;;
+	     *)
+	     echo $"Usage: ${prog} {start|stop|restart}: "
+	     RETVAL=2
+	esac
+
+	exit $RETVAL
+
