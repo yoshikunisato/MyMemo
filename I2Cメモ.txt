@@ -1,0 +1,54 @@
+Raspberry Pi 温度センサ(TMP102)を使う
+
+○I2Cモジュールの有効化
+・raspi-config
+	Advanced Options
+	I2Cを有効にする
+・リブート	
+
+○I2C toolsのインストール
+	sudo apt-get install i2c-tools
+	
+○I2Cデバイスの接続
+	略
+	
+○接続確認
+	i2cdetect -y 1 (-y 1はバス番号1)
+	     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+	00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	40: -- -- -- -- -- -- -- -- 48 -- -- -- -- -- -- -- 
+	50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+	70: -- -- -- -- -- -- -- --    
+	のように表示される
+
+○レジスタ値の取得
+	i2cget -y 1 0x48 0x00 w
+	0x48から0x00オフセットしてw(word)値を読む
+	
+○温度値への変換
+	レジスタ値の16bitのうち12bitで温度を表す
+	変換は変則的(下記)
+	f e d c | b a 9 8 | 7 6 5 4 | 3 2 1 0
+	を
+	 7 6 5 4 | 3 2 1 0 | f e d c 
+	のように結合して、10進値で読み取り、0.0625を掛ける
+	
+	例) 0x601Bなら、0x1B6に変換し、10進値=438 × 0.0625 → 27.375℃
+
+	tempget.sh
+	
+	#! /bin/sh
+	i2cget -y 1 0x48 0x00 w | awk '{printf("%.2f\n", (t=("0x"substr($1,5,2)substr($1,3,1))*0.0625)>128?t-256:t)}'
+
+○TODO
+
+The Pi4J Project - Installation
+http://pi4j.com/install.html
+
+Example code to deal with the TMP102 Temp Sensor via the PI4J API on a RaspberryPi.
+https://gist.github.com/markadr/63b8eaf4248f0054c241
+

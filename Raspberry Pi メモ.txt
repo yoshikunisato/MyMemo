@@ -1,8 +1,18 @@
 Raspberry Pi メモ
 
+update:
+2016年7月24日
+	Pi 3 対応追記
+	
+
 [インストール関連(ディスプレイ/KBD/Mouseなし)]
 SDカードに直接インストール
 ・公式サイトからRaspbianのイメージ取得(800M)
+	Raspbian Jessie Liteを入れてみる。
+	Desktop中心にパッケージが限定されている様子。
+	rubyだのphysonなど無いようだが、あとから入れるので問題なし
+	https://www.raspberrypi.org/downloads/raspbian/
+
 ・SDカードは、SDFormatterでフォーマット
 ・Win32DiskImagerで、イメージをSDカードにWrite
 ・Raspberry Piに挿してから電源を入れる
@@ -11,11 +21,14 @@ SDカードに直接インストール
 ・sshでログインする(user/pass = pi/raspberry)
 
 インストール後 sudo raspi-config
-・SDカードが全て使える(最初は4G用になっているのでrootが小さく見える)
-・Languageの設定
-・ビデオメモリ調整
+・Expand Filesystem SDカードが全て使える(最初は4G用になっているのでrootが小さく見える)
+・International Option
+	・Languageの設定
+	・タイムゾーン(下の方にメニューあり)
+	・Wifi-country(不要かも)
+・Advanced Options -> Memory Spilit->ビデオメモリ調整(不要かも)
 
-パッケージの最新化
+パッケージの最新化(sudoで)
   apt-get update  apt-get upgrade
 
 [apt関連]
@@ -47,9 +60,14 @@ SDカードに直接インストール
     public = yes
 
 [Wifi]
-Planex GW-USNANO2A 挿す
-	wpa_passphrase SID key
-	→出力される
+○Pi2の場合
+  Planex GW-USNANO2A 挿す
+○Pi3の場合(Wifiインターフェイスは実装済)
+  ifconfigでwlan0があることを確認
+
+ここから共通
+	wpa_passphrase SID key <-"SID" "key"は実際の内容に置き換えること
+	→下記のようなテキストが出力される
 	network={
 	        ssid="SID"
 	        #psk="key"
@@ -58,6 +76,9 @@ Planex GW-USNANO2A 挿す
 
 	上記を下記ファイルに追記
 	/etc/wpa_supplicant/wpa_supplicant.conf
+
+	ifdown wlan0 / ifupwlan0 でIPアドレスが取得できるか確認
+	(Pi3ではここまででsshできた)
 
 	/etc/network/interfaces
 	wlan0のところを修正
@@ -72,7 +93,16 @@ Planex GW-USNANO2A 挿す
 	ifup wlan0
 	iwconfigで確認
 
-無線のパワーマネージメント無効化
+	無線のパワーマネージメント無効化(Pi2)
 	/etc/modprobe.d/8192cu.conf
 	# Disable power saving
 	options 8192cu rtw_power_mgnt=0 rtw_enusbss=1 rtw_ips_mode=1
+
+	無線のパワーマネージメント無効化(Pi3)
+	sudo vi /etc/network/interfaces
+	wlanの行に下記を追加
+		#   wireless-power off
+	    post-up iw dev $IFACE set power_save off
+	リブート
+	sudo iw dev wlan0 get power_save で確認(offになっていればOK)
+

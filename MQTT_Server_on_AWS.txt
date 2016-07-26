@@ -1,0 +1,45 @@
+MQTT Server on AWS
+参考： https://mosquitto.org/download/ Ubuntuのところ
+
+○インスタンス生成
+	Ubuntu Server 14.04 LTS (HVM) 
+	t2.micro (mem 1G)
+
+○ログイン
+	いつもの.pemを鍵に指定してインスタンスにsshする
+	ユーザ名は"ubuntu"
+	お約束：
+		apt-get update, apt-get upgrade
+	タイムゾーン設定
+		timedatectl set-timezone Asia/Tokyo
+
+○Mosquittoのインストール (Ubuntuのppaから最新をaptでインストールできるのでこれを選定)
+・PPAを追加
+	apt-add-repository ppa:mosquitto-dev/mosquitto-ppa
+・インストール
+	apt-get install mosquitto mosquitto-clients
+
+○動作確認(pub/sub)
+	sub側(コマンドは復帰しない)
+	mosquitto_sub -d -t test
+
+	pub側(別のコンソールから)
+	mosquitto_pub -d -t test -m "Hello world!"
+	→sub側に"Hello world!"が表示されるはず
+	
+
+○Piから確認
+	Pi側にクライアントを追加
+	apt-get install mosquitto-clients
+	
+	コマンドで確認(-hはホスト、適当に編集する。セキュリティグループでMQTT(1883)を許可しないと通らない)
+	mosquitto_pub -h ec2-52-192-251-45.ap-northeast-1.compute.amazonaws.com -d -t test -m "Hello world! from Pi"
+	
+	温度取得バッチの結果をpublishする
+	./tempget.sh | mosquitto_pub -h ec2-52-192-251-45.ap-northeast-1.compute.amazonaws.com -d -t test -s
+	
+	
+○Java クライアントからPub/Sub
+参考：http://info.skyondemand.net/blog/2015/150801_000991.php
+
+
