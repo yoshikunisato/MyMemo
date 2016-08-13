@@ -1,0 +1,126 @@
+Node.jsでCassandraアクセスをやってみる
+
+Windows用バイナリを入手
+https://nodejs.org/en/
+
+
+Eclipse環境をセットアップ
+http://tikuflower.blogspot.jp/2014/05/nodejswindowseclipse.html
+
+
+○サーバ (Ubuntu)
+	お約束：
+		apt-get update, apt-get upgrade
+	タイムゾーン設定
+		timedatectl set-timezone Asia/Tokyo
+
+○Node.jsのインストール (PPAから)
+	※ apt-get install nodejs npm　だとV0.10.25が入る(古い)
+	
+	sudo curl -sL https://deb.nodesource.com/setup | sudo bash -
+	apt-get install nodejs
+	
+	・"node"コマンドで呼べるようにする -> ln ではやらない(らしい)
+	update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+
+	node -v
+	
+○Hello World
+	下記のコードを実行 (hostnameはDNSを使用しないとインターネットからアクセス出来ない)
+	
+	var hostname = 'ec2-52-197-220-84.ap-northeast-1.compute.amazonaws.com';
+	var http = require('http');
+	http.createServer(function (req, res) {
+	  res.writeHead(200, {'Content-Type': 'text/plain'});
+	  res.end('Hello World\n');
+	}).listen(80, hostname);
+	console.log('Server running at http://'+hostname+':80/');
+
+	※ lynx-cur をインストールすると、lynxで動作確認できる
+
+○NodeでWebsocket Server
+	http://qiita.com/toshirot/items/a461cdc8c2079d9b8530
+
+	実行にはwsが必要 → npm install ws
+	
+	/**
+	 * Node.js Websocket Driver
+	 */
+	var WsServer = require('ws').Server;
+	var tid;
+
+	// WebSocketサーバー作成
+	var ws = new WsServer({
+	//    host: 'ccchart.com',
+	    host: 'ec2-52-197-220-84.ap-northeast-1.compute.amazonaws.com',
+	    port: 80
+	});
+
+	broadCast();// データ配信開始
+
+	// クライアント接続時イベント
+	ws.on('connection', function(socket) {
+	  console.log('conned: ' + ws.clients.length);
+	});
+
+	// 100ms毎にデータをブロードキャストする
+	function broadCast(){
+	  tid = setInterval (function(){
+	    var dataAry = mkData();
+	    ws.clients.forEach(function(client) {
+	      client.send(JSON.stringify(dataAry));
+	    });
+	  }, 100);
+	}
+
+	// データ配列を作る
+	function mkData(){
+	  var data = [];
+	  var now = new Date();
+	  var H = now.getHours();
+	  var M = now.getMinutes();
+	  var S = now.getSeconds();
+	  H = (H < 10)?'0'+H:H;
+	  M = (M < 10)?'0'+M:M;
+	  S = (S < 10)?'0'+S:S;
+
+	  data[0]=H +':' + M +':' + S;
+	  data[1]=Math.floor(Math.random(10) * 96 );
+	  data[2]=32 + Math.floor(Math.random(10) * 18);
+
+	  return data;
+	}
+
+○Cassandra アクセス
+	DataStax Node driver
+	https://github.com/datastax/nodejs-driver
+	API:
+	http://docs.datastax.com/en/latest-nodejs-driver-api/
+	http://datastax.github.io/nodejs-driver/features/datatypes/
+	
+	インストール
+	npm install cassandra-driver
+
+	サンプルコード
+	
+	
+	/**
+	 * NodeからCassandraへのアクセスサンプル
+	 */
+	const cassandra = require('cassandra-driver');
+
+	//Set the auth provider in the clientOptions when creating the Client instance
+	const authProvider = new cassandra.auth.PlainTextAuthProvider('iotapp', 'pwdiotapp');
+
+	// prepare client
+	const client = new cassandra.Client({ contactPoints: ['ec2-52-193-198-108.ap-northeast-1.compute.amazonaws.com'], authProvider: authProvider, keyspace: 'iot'});
+
+	const query = 'SELECT * FROM sens_by_day WHERE s_id=? and s_date=?';
+	client.execute(query, ['s001.home','2016-07-27'], function(err, result) {
+		if (err) return console.error(err);
+		const row = result.first();
+		// Date型処理
+		dtime = new Date(row['s_time']);
+		console.log(row['s_id']+' ,'+row['s_date']+' '+dtime.toLocaleTimeString({timeZone:'Asia/Tokyo'})+', '+row['s_val']);
+	});
+	
