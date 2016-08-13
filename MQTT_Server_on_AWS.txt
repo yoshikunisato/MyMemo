@@ -15,7 +15,7 @@ MQTT Server on AWS
 
 ○Mosquittoのインストール (Ubuntuのppaから最新をaptでインストールできるのでこれを選定)
 ・PPAを追加
-	apt-add-repository ppa:mosquitto-dev/mosquitto-ppa
+	add-apt-repository ppa:mosquitto-dev/mosquitto-ppa
 ・インストール
 	apt-get install mosquitto mosquitto-clients
 

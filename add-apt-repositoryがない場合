@@ -1,0 +1,15 @@
+add-apt-repositoryが見つからない場合
+(Pi 2 に入れたRaspbian wheezyで必要だった)
+
+	apt-get install apt-file
+	apt-file update
+	apt-file search add-apt-repository
+	
+	上記を行うと、目的の(add-apt-repository)ファイルが含まれるパッケージを検索する
+	結果で表示されたバッケージをapt-getでインストールする
+	
+	apt-get install python-software-properties
+	
+	※ ネット上の情報では、python-software-properties ではなく、ubuntu14ではsoftware-properties-common を入れるという情報もある
+	　 OSディストリビューションにより違うらしい
+	
