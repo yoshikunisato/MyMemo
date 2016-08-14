@@ -124,3 +124,7 @@ http://tikuflower.blogspot.jp/2014/05/nodejswindowseclipse.html
 		console.log(row['s_id']+' ,'+row['s_date']+' '+dtime.toLocaleTimeString({timeZone:'Asia/Tokyo'})+', '+row['s_val']);
 	});
 	
+○Windows
+	foreverのインストール
+	npm install forever-win -g
+	(-gはグローバル指定)
