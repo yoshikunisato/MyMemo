@@ -128,3 +128,14 @@ http://tikuflower.blogspot.jp/2014/05/nodejswindowseclipse.html
 	foreverのインストール
 	npm install forever-win -g
 	(-gはグローバル指定)
+	
+○ubuntuでNodeスクリプトをサービスとして起動する
+	npm install -g initd-forever
+	initd-forever -a /usr/local/src/NodeWS/jsonDataAPI.js -n APIserver
+	
+	APIserverというファイルが作成されるので編集する(不要だった)
+	/etc/init.d/にコピー
+	service APIserver start/stop/status 
+	
+	
+	
