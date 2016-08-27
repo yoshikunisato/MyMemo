@@ -1,0 +1,14 @@
+AzureでFQDNを設定する
+https://azure.microsoft.com/ja-jp/documentation/articles/virtual-machines-linux-portal-create-fqdn/
+
+VMを作成した直後は、パブリックIPが自動的に設定されているが、FQDNは無い。
+
+VMの概要ページ
+　↓
+パブリックIPアドレス
+　↓
+ネットワークの概要から、左メニューの構成
+　↓
+DNSラベル入力
+　↓
+保存

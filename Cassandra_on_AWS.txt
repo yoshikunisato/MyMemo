@@ -107,3 +107,7 @@ CREATE TABLE sens (
 	https://docs.datastax.com/en/drivers/java/2.0/index.html
 	
 	
+○Azureの場合
+	listen_address、rpc_addresともに、値を空白にした→FQDNで接続できた。(service startしてから時間がかかるのかも)
+	なかなかつながらなかったので、これが正解かはわからない。
+	
