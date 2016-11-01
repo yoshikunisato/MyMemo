@@ -1,0 +1,176 @@
+Cloud Foundry メモ
+
+○インストールの方法(いろいろある)
+・Cloud Foundry v2 Nise Installer (https://github.com/yudai/cf_nise_installer)
+・bosh-lite (https://github.com/cloudfoundry/bosh-lite)
+・PCF Dev (https://docs.pivotal.io/pcf-dev/index.html) ←やってみる
+	PCF Devは開発用にローカル環境で簡単にCloud Foundryを試すためのVM環境です。
+
+○PCF Devを試す(Windows)
+https://docs.pivotal.io/pcf-dev/install-windows.html
+https://github.com/Pivotal-Japan/cf-workshop/blob/master/pcf-dev.md
+
+・CF CLI 最新版を取得、インストール (https://cli.run.pivotal.io/stable?release=windows64&source=github-rel)
+・PCF DEV 最新版を取得、インストール (https://network.pivotal.io/products/pcfdev)
+・cf dev start
+	初回はPivotalNetworkへログインして自動的にVMのダウンロードを行う。インターネット必須。
+	PivotalNetworkのAPI Tokenが必要。アカウントページ(https://network.pivotal.io/users/dashboard/edit-profile)
+　⇒Disk(C:\)が足りなくて断念…
+
+○PCF Devを試す(Ubuntu)
+・Ubuntu 14.04 にVirtualBoxをインストール
+	dpkg -i ～.deb
+	依存するパッケージが無くて失敗するので…
+	apt-get -f install
+	カーネルモジュールがコンパイルできないと言われるので…
+	apt-get install gcc make
+	/sbin/vboxconfig
+・gitのインストール
+	apt-get install git
+・CF CLIのインストール
+	wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+	echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+	sudo apt-get update
+	sudo apt-get install cf-cli
+・PCF Devのインストール (cf CLIのプラグイン)
+	apt-get install unzip
+	バイナリ(.zip)を取得 (https://network.pivotal.io/products/pcfdev)
+	unzip pcfdev-v0.21.0+PCF1.8.2-linux.zip
+	sudo ./pcfdev-v0.21.0+PCF1.8.2-linux
+・PCF Devのスタート
+	sudo cf dev start
+	初回はPivotalNetworkへログインして自動的にVMのダウンロードを行う。インターネット必須。
+	VMの展開～インポート、VMの起動を行う
+	※ VMのubuntuでVirtualBoxを実行するとVT-xが有効ではないというエラーで起動に失敗するので下記でVT-xを無効化する	
+		VBoxManage modifyvm pcfdev-v0.337.0 --hwvirtex off
+		VBoxManage modifyvm pcfdev-v0.337.0 --vtxvpid off
+	⇒ 結局ダメでした。VT-xはネストして利用できない。
+
+○Cloud Foundry v2 Nise Installer
+http://dotnsf.blog.jp/archives/1056648648.html
+
+Ubuntu 14.04 LTSを用意する
+
+・必要なpkgをインストール
+	apt-get install build-essential bison libreadline6-dev curl git-core zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev autoconf libncurses5-dev
+	apt-get install rbenv
+・Nise Installer
+	必ず一般ユーザで…
+	bash < <(curl -s -k -B https://raw.githubusercontent.com/yudai/cf_nise_installer/${INSTALLER_BRANCH:-master}/scripts/bootstrap.sh)
+	…約1時間…	
+
+	done!と表示されたら再起動
+・CFの開始
+	~/cf_nise_installer/scripts/start.sh
+	…約5分…
+	
+	起動が完了すると、loginの方法が表示される
+・動作確認
+	cf login -a https://api.10.0.2.15.xip.io -u admin -p c1oudc0w --skip-ssl-validation
+	スペース作成
+	cf create-space dev
+	cf target -o DevBox -s dev
+	cf targetで確認
+	
+	API endpoint:   https://api.10.0.2.15.xip.io (API version: 2.56.0)
+	User:           admin
+	Org:            DevBox
+	Space:          dev
+	
+TODO:
+http://blog.cloudfoundry.gr.jp/2015/09/cf100apps-068-spring-boot-cf-service-broker-mongo.html
+
+○NISE INSTALLERインストールして再起動後にIPアドレスが変更してしまった場合
+	~/cf_nise_installer/scripts/start.sh
+	とやっても、monit(下記)で確認するとサービスが起動しない
+		sudo /var/vcap/bosh/bin/monit summary
+		…rubyが高負荷で動作し続ける状況
+
+	下記を修正した…いろいろやったけどダメだった。簡単には修復できないっぽい。
+		.cf/config.json
+		~/cf_nise_installer/manifests/deploy.yml
+
+	下記で再インストール(それほど時間はかからない)
+	sudo ~/cf_nise_installer/scripts/install.sh
+
+	そのあと再起動(IPが変わらないように)
+
+	IPが変わった後など、不要なドメインの削除
+	cf delete-shared-domain xxxx
+	確認
+	cf domains
+	cf routes
+	
+	メモ：CFをインストールした後は、eth0のIPアドレスが変更しないように注意する(固定IP、NATにする、etc)
+
+○CF,BOSHメモ
+	※ 注1:Proxy環境ではhttp_pxoryを正しく設定しないとCFが起動しない(wardenがエラーになるなど)
+	※ PublicなDNSが参照できないと、cf loginできない。(xxx.xip.ioの名前解決ができないので)
+	
+	CF起動状況の確認
+	sudo /var/vcap/bosh/bin/monit status
+	sudo /var/vcap/bosh/bin/monit summary
+
+	cf login -a https://api.10.0.2.15.xip.io -u admin -p c1oudc0w --skip-ssl-validation
+	
+	※ エンドポイントはデフォルトでapi.xxxxx.xip.ioになる。ユーザ/パスワードも上記がデフォルトらしい
+
+	cf target	現在ログインしているエンドポイントやスペース
+	cf api		現在ログインしているエンドポイント
+	
+	cf apps		現在のアプリ一覧
+	cf delete	アプリ削除
+
+○アプリPush実験
+	cf push ptest -p phpinfo/ -b https://github.com/cloudfoundry/php-buildpack
+	
+○Javaアプリ
+	RequestBroker.jarをpushしてみる
+	MANIFEST.MFに no-route: true プロパティを設定
+	(参考：https://docs.cloudfoundry.org/buildpacks/java/java-tips.html#java-main)
+	
+	cf push myjava -p RequestBroker.jar --no-route
+	※ --no-routeを付けないとpushが終了しない、MANIFEST.MFの記述が効いていない?!
+	
+	スタンドアロンアプリなので普通に動いた。
+	
+○Nodeアプリ
+	サンプル(環境変数の値か、3000ポートでHelloWorld)
+
+	-------------------------------
+	var port = (process.env.PORT || 3000);
+	var host = (process.env.VCAP_APP_HOST || 'localhost');
+	var http = require('http');
+
+	http.createServer(function (req, res) {
+	  res.writeHead(200, {'Content-Type': 'text/plain'});
+	  res.end('ハロー World host=['+host+'] port=['+port+']\n');
+	}).listen(port, host);
+	-------------------------------
+
+	PUSH
+	cf p mynd -p nodeapp/ -b nodejs_buildpack
+	⇒package.jsonが無いと怒られる
+	  とりあえずpackage.jsonを適当に作成、npm testでエラーにならない事を確認
+	再度cf pushすると、起動アプリが不明と言われる。(…package.jsonの"script"でもできるっぽい)
+	⇒manifest.ymlを作成。
+	cf p mynd -p ./ -b nodejs_buildpack
+	※ manifest.ymlにはビルドパックの指定ができる。cf p 時にいちいち指定しなくてよい。
+	
+	接続確認。AppはCFの環境変数から渡されるPORTでlistenし、外からポート80で接続できる(ルーティング)
+	lynx http://mynd.10.0.2.15.xip.io/
+	
+	メモ：push時に -p xxxxx/とディレクトリ指定をすると失敗した。-p ./だとうまくいく。Node.jsクセあり…
+	
+○StaticFile(nginx)
+	参考:https://docs.cloudfoundry.org/buildpacks/staticfile/index.html
+
+	適当なフォルダにhtmlやらを置く
+	Staticfileというファイルを作成(touch Staticfileで良い)
+	cf p myhttp -p .
+	
+	nginxの設定をカスタマイズしたい場合は、同じフォルダにnginx.confを置く。
+	⇒GitHubのStaticfileビルドパックにあるnginx.confのサンプルを基にカスタマイズすること
+	https://github.com/cloudfoundry/staticfile-buildpack/blob/master/conf/nginx.conf
+	
+	
