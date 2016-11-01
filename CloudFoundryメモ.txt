@@ -1,76 +1,76 @@
-Cloud Foundry ƒƒ‚
+Cloud Foundry ãƒ¡ãƒ¢
 
-›ƒCƒ“ƒXƒg[ƒ‹‚Ì•û–@(‚¢‚ë‚¢‚ë‚ ‚é)
-ECloud Foundry v2 Nise Installer (https://github.com/yudai/cf_nise_installer)
-Ebosh-lite (https://github.com/cloudfoundry/bosh-lite)
-EPCF Dev (https://docs.pivotal.io/pcf-dev/index.html) ©‚â‚Á‚Ä‚İ‚é
-	PCF Dev‚ÍŠJ”­—p‚Éƒ[ƒJƒ‹ŠÂ‹«‚ÅŠÈ’P‚ÉCloud Foundry‚ğ‚·‚½‚ß‚ÌVMŠÂ‹«‚Å‚·B
+â—‹ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã®æ–¹æ³•(ã„ã‚ã„ã‚ã‚ã‚‹)
+ãƒ»Cloud Foundry v2 Nise Installer (https://github.com/yudai/cf_nise_installer)
+ãƒ»bosh-lite (https://github.com/cloudfoundry/bosh-lite)
+ãƒ»PCF Dev (https://docs.pivotal.io/pcf-dev/index.html) â†ã‚„ã£ã¦ã¿ã‚‹
+	PCF Devã¯é–‹ç™ºç”¨ã«ãƒ­ãƒ¼ã‚«ãƒ«ç’°å¢ƒã§ç°¡å˜ã«Cloud Foundryã‚’è©¦ã™ãŸã‚ã®VMç’°å¢ƒã§ã™ã€‚
 
-›PCF Dev‚ğ‚·(Windows)
+â—‹PCF Devã‚’è©¦ã™(Windows)
 https://docs.pivotal.io/pcf-dev/install-windows.html
 https://github.com/Pivotal-Japan/cf-workshop/blob/master/pcf-dev.md
 
-ECF CLI ÅV”Å‚ğæ“¾AƒCƒ“ƒXƒg[ƒ‹ (https://cli.run.pivotal.io/stable?release=windows64&source=github-rel)
-EPCF DEV ÅV”Å‚ğæ“¾AƒCƒ“ƒXƒg[ƒ‹ (https://network.pivotal.io/products/pcfdev)
-Ecf dev start
-	‰‰ñ‚ÍPivotalNetwork‚ÖƒƒOƒCƒ“‚µ‚Ä©“®“I‚ÉVM‚Ìƒ_ƒEƒ“ƒ[ƒh‚ğs‚¤BƒCƒ“ƒ^[ƒlƒbƒg•K{B
-	PivotalNetwork‚ÌAPI Token‚ª•K—vBƒAƒJƒEƒ“ƒgƒy[ƒW(https://network.pivotal.io/users/dashboard/edit-profile)
-@ËDisk(C:\)‚ª‘«‚è‚È‚­‚Ä’f”Oc
+ãƒ»CF CLI æœ€æ–°ç‰ˆã‚’å–å¾—ã€ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ« (https://cli.run.pivotal.io/stable?release=windows64&source=github-rel)
+ãƒ»PCF DEV æœ€æ–°ç‰ˆã‚’å–å¾—ã€ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ« (https://network.pivotal.io/products/pcfdev)
+ãƒ»cf dev start
+	åˆå›ã¯PivotalNetworkã¸ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦è‡ªå‹•çš„ã«VMã®ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã‚’è¡Œã†ã€‚ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒƒãƒˆå¿…é ˆã€‚
+	PivotalNetworkã®API TokenãŒå¿…è¦ã€‚ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãƒšãƒ¼ã‚¸(https://network.pivotal.io/users/dashboard/edit-profile)
+ã€€â‡’Disk(C:\)ãŒè¶³ã‚Šãªãã¦æ–­å¿µâ€¦
 
-›PCF Dev‚ğ‚·(Ubuntu)
-EUbuntu 14.04 ‚ÉVirtualBox‚ğƒCƒ“ƒXƒg[ƒ‹
-	dpkg -i `.deb
-	ˆË‘¶‚·‚éƒpƒbƒP[ƒW‚ª–³‚­‚Ä¸”s‚·‚é‚Ì‚Åc
+â—‹PCF Devã‚’è©¦ã™(Ubuntu)
+ãƒ»Ubuntu 14.04 ã«VirtualBoxã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
+	dpkg -i ï½.deb
+	ä¾å­˜ã™ã‚‹ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ãŒç„¡ãã¦å¤±æ•—ã™ã‚‹ã®ã§â€¦
 	apt-get -f install
-	ƒJ[ƒlƒ‹ƒ‚ƒWƒ…[ƒ‹‚ªƒRƒ“ƒpƒCƒ‹‚Å‚«‚È‚¢‚ÆŒ¾‚í‚ê‚é‚Ì‚Åc
+	ã‚«ãƒ¼ãƒãƒ«ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãŒã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ããªã„ã¨è¨€ã‚ã‚Œã‚‹ã®ã§â€¦
 	apt-get install gcc make
 	/sbin/vboxconfig
-Egit‚ÌƒCƒ“ƒXƒg[ƒ‹
+ãƒ»gitã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 	apt-get install git
-ECF CLI‚ÌƒCƒ“ƒXƒg[ƒ‹
+ãƒ»CF CLIã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 	wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
 	echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
 	sudo apt-get update
 	sudo apt-get install cf-cli
-EPCF Dev‚ÌƒCƒ“ƒXƒg[ƒ‹ (cf CLI‚Ìƒvƒ‰ƒOƒCƒ“)
+ãƒ»PCF Devã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ« (cf CLIã®ãƒ—ãƒ©ã‚°ã‚¤ãƒ³)
 	apt-get install unzip
-	ƒoƒCƒiƒŠ(.zip)‚ğæ“¾ (https://network.pivotal.io/products/pcfdev)
+	ãƒã‚¤ãƒŠãƒª(.zip)ã‚’å–å¾— (https://network.pivotal.io/products/pcfdev)
 	unzip pcfdev-v0.21.0+PCF1.8.2-linux.zip
 	sudo ./pcfdev-v0.21.0+PCF1.8.2-linux
-EPCF Dev‚ÌƒXƒ^[ƒg
+ãƒ»PCF Devã®ã‚¹ã‚¿ãƒ¼ãƒˆ
 	sudo cf dev start
-	‰‰ñ‚ÍPivotalNetwork‚ÖƒƒOƒCƒ“‚µ‚Ä©“®“I‚ÉVM‚Ìƒ_ƒEƒ“ƒ[ƒh‚ğs‚¤BƒCƒ“ƒ^[ƒlƒbƒg•K{B
-	VM‚Ì“WŠJ`ƒCƒ“ƒ|[ƒgAVM‚Ì‹N“®‚ğs‚¤
-	¦ VM‚Ìubuntu‚ÅVirtualBox‚ğÀs‚·‚é‚ÆVT-x‚ª—LŒø‚Å‚Í‚È‚¢‚Æ‚¢‚¤ƒGƒ‰[‚Å‹N“®‚É¸”s‚·‚é‚Ì‚Å‰º‹L‚ÅVT-x‚ğ–³Œø‰»‚·‚é	
+	åˆå›ã¯PivotalNetworkã¸ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦è‡ªå‹•çš„ã«VMã®ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã‚’è¡Œã†ã€‚ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒƒãƒˆå¿…é ˆã€‚
+	VMã®å±•é–‹ï½ã‚¤ãƒ³ãƒãƒ¼ãƒˆã€VMã®èµ·å‹•ã‚’è¡Œã†
+	â€» VMã®ubuntuã§VirtualBoxã‚’å®Ÿè¡Œã™ã‚‹ã¨VT-xãŒæœ‰åŠ¹ã§ã¯ãªã„ã¨ã„ã†ã‚¨ãƒ©ãƒ¼ã§èµ·å‹•ã«å¤±æ•—ã™ã‚‹ã®ã§ä¸‹è¨˜ã§VT-xã‚’ç„¡åŠ¹åŒ–ã™ã‚‹	
 		VBoxManage modifyvm pcfdev-v0.337.0 --hwvirtex off
 		VBoxManage modifyvm pcfdev-v0.337.0 --vtxvpid off
-	Ë Œ‹‹Çƒ_ƒ‚Å‚µ‚½BVT-x‚ÍƒlƒXƒg‚µ‚Ä—˜—p‚Å‚«‚È‚¢B
+	â‡’ çµå±€ãƒ€ãƒ¡ã§ã—ãŸã€‚VT-xã¯ãƒã‚¹ãƒˆã—ã¦åˆ©ç”¨ã§ããªã„ã€‚
 
-›Cloud Foundry v2 Nise Installer
+â—‹Cloud Foundry v2 Nise Installer
 http://dotnsf.blog.jp/archives/1056648648.html
 
-Ubuntu 14.04 LTS‚ğ—pˆÓ‚·‚é
+Ubuntu 14.04 LTSã‚’ç”¨æ„ã™ã‚‹
 
-E•K—v‚Èpkg‚ğƒCƒ“ƒXƒg[ƒ‹
+ãƒ»å¿…è¦ãªpkgã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 	apt-get install build-essential bison libreadline6-dev curl git-core zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev autoconf libncurses5-dev
 	apt-get install rbenv
-ENise Installer
-	•K‚¸ˆê”Êƒ†[ƒU‚Åc
+ãƒ»Nise Installer
+	å¿…ãšä¸€èˆ¬ãƒ¦ãƒ¼ã‚¶ã§â€¦
 	bash < <(curl -s -k -B https://raw.githubusercontent.com/yudai/cf_nise_installer/${INSTALLER_BRANCH:-master}/scripts/bootstrap.sh)
-	c–ñ1ŠÔc	
+	â€¦ç´„1æ™‚é–“â€¦	
 
-	done!‚Æ•\¦‚³‚ê‚½‚çÄ‹N“®
-ECF‚ÌŠJn
+	done!ã¨è¡¨ç¤ºã•ã‚ŒãŸã‚‰å†èµ·å‹•
+ãƒ»CFã®é–‹å§‹
 	~/cf_nise_installer/scripts/start.sh
-	c–ñ5•ªc
+	â€¦ç´„5åˆ†â€¦
 	
-	‹N“®‚ªŠ®—¹‚·‚é‚ÆAlogin‚Ì•û–@‚ª•\¦‚³‚ê‚é
-E“®ìŠm”F
+	èµ·å‹•ãŒå®Œäº†ã™ã‚‹ã¨ã€loginã®æ–¹æ³•ãŒè¡¨ç¤ºã•ã‚Œã‚‹
+ãƒ»å‹•ä½œç¢ºèª
 	cf login -a https://api.10.0.2.15.xip.io -u admin -p c1oudc0w --skip-ssl-validation
-	ƒXƒy[ƒXì¬
+	ã‚¹ãƒšãƒ¼ã‚¹ä½œæˆ
 	cf create-space dev
 	cf target -o DevBox -s dev
-	cf target‚ÅŠm”F
+	cf targetã§ç¢ºèª
 	
 	API endpoint:   https://api.10.0.2.15.xip.io (API version: 2.56.0)
 	User:           admin
@@ -80,62 +80,62 @@ Ubuntu 14.04 LTS‚ğ—pˆÓ‚·‚é
 TODO:
 http://blog.cloudfoundry.gr.jp/2015/09/cf100apps-068-spring-boot-cf-service-broker-mongo.html
 
-›NISE INSTALLERƒCƒ“ƒXƒg[ƒ‹‚µ‚ÄÄ‹N“®Œã‚ÉIPƒAƒhƒŒƒX‚ª•ÏX‚µ‚Ä‚µ‚Ü‚Á‚½ê‡
+â—‹NISE INSTALLERã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦å†èµ·å‹•å¾Œã«IPã‚¢ãƒ‰ãƒ¬ã‚¹ãŒå¤‰æ›´ã—ã¦ã—ã¾ã£ãŸå ´åˆ
 	~/cf_nise_installer/scripts/start.sh
-	‚Æ‚â‚Á‚Ä‚àAmonit(‰º‹L)‚ÅŠm”F‚·‚é‚ÆƒT[ƒrƒX‚ª‹N“®‚µ‚È‚¢
+	ã¨ã‚„ã£ã¦ã‚‚ã€monit(ä¸‹è¨˜)ã§ç¢ºèªã™ã‚‹ã¨ã‚µãƒ¼ãƒ“ã‚¹ãŒèµ·å‹•ã—ãªã„
 		sudo /var/vcap/bosh/bin/monit summary
-		cruby‚ª‚•‰‰×‚Å“®ì‚µ‘±‚¯‚éó‹µ
+		â€¦rubyãŒé«˜è² è·ã§å‹•ä½œã—ç¶šã‘ã‚‹çŠ¶æ³
 
-	‰º‹L‚ğC³‚µ‚½c‚¢‚ë‚¢‚ë‚â‚Á‚½‚¯‚Çƒ_ƒ‚¾‚Á‚½BŠÈ’P‚É‚ÍC•œ‚Å‚«‚È‚¢‚Á‚Û‚¢B
+	ä¸‹è¨˜ã‚’ä¿®æ­£ã—ãŸâ€¦ã„ã‚ã„ã‚ã‚„ã£ãŸã‘ã©ãƒ€ãƒ¡ã ã£ãŸã€‚ç°¡å˜ã«ã¯ä¿®å¾©ã§ããªã„ã£ã½ã„ã€‚
 		.cf/config.json
 		~/cf_nise_installer/manifests/deploy.yml
 
-	‰º‹L‚ÅÄƒCƒ“ƒXƒg[ƒ‹(‚»‚ê‚Ù‚ÇŠÔ‚Í‚©‚©‚ç‚È‚¢)
+	ä¸‹è¨˜ã§å†ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«(ãã‚Œã»ã©æ™‚é–“ã¯ã‹ã‹ã‚‰ãªã„)
 	sudo ~/cf_nise_installer/scripts/install.sh
 
-	‚»‚Ì‚ ‚ÆÄ‹N“®(IP‚ª•Ï‚í‚ç‚È‚¢‚æ‚¤‚É)
+	ãã®ã‚ã¨å†èµ·å‹•(IPãŒå¤‰ã‚ã‚‰ãªã„ã‚ˆã†ã«)
 
-	IP‚ª•Ï‚í‚Á‚½Œã‚È‚ÇA•s—v‚ÈƒhƒƒCƒ“‚Ìíœ
+	IPãŒå¤‰ã‚ã£ãŸå¾Œãªã©ã€ä¸è¦ãªãƒ‰ãƒ¡ã‚¤ãƒ³ã®å‰Šé™¤
 	cf delete-shared-domain xxxx
-	Šm”F
+	ç¢ºèª
 	cf domains
 	cf routes
 	
-	ƒƒ‚FCF‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚½Œã‚ÍAeth0‚ÌIPƒAƒhƒŒƒX‚ª•ÏX‚µ‚È‚¢‚æ‚¤‚É’ˆÓ‚·‚é(ŒÅ’èIPANAT‚É‚·‚éAetc)
+	ãƒ¡ãƒ¢ï¼šCFã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ãŸå¾Œã¯ã€eth0ã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ãŒå¤‰æ›´ã—ãªã„ã‚ˆã†ã«æ³¨æ„ã™ã‚‹(å›ºå®šIPã€NATã«ã™ã‚‹ã€etc)
 
-›CF,BOSHƒƒ‚
-	¦ ’1:ProxyŠÂ‹«‚Å‚Íhttp_pxory‚ğ³‚µ‚­İ’è‚µ‚È‚¢‚ÆCF‚ª‹N“®‚µ‚È‚¢(warden‚ªƒGƒ‰[‚É‚È‚é‚È‚Ç)
-	¦ Public‚ÈDNS‚ªQÆ‚Å‚«‚È‚¢‚ÆAcf login‚Å‚«‚È‚¢B(xxx.xip.io‚Ì–¼‘O‰ğŒˆ‚ª‚Å‚«‚È‚¢‚Ì‚Å)
+â—‹CF,BOSHãƒ¡ãƒ¢
+	â€» æ³¨1:Proxyç’°å¢ƒã§ã¯http_pxoryã‚’æ­£ã—ãè¨­å®šã—ãªã„ã¨CFãŒèµ·å‹•ã—ãªã„(wardenãŒã‚¨ãƒ©ãƒ¼ã«ãªã‚‹ãªã©)
+	â€» PublicãªDNSãŒå‚ç…§ã§ããªã„ã¨ã€cf loginã§ããªã„ã€‚(xxx.xip.ioã®åå‰è§£æ±ºãŒã§ããªã„ã®ã§)
 	
-	CF‹N“®ó‹µ‚ÌŠm”F
+	CFèµ·å‹•çŠ¶æ³ã®ç¢ºèª
 	sudo /var/vcap/bosh/bin/monit status
 	sudo /var/vcap/bosh/bin/monit summary
 
 	cf login -a https://api.10.0.2.15.xip.io -u admin -p c1oudc0w --skip-ssl-validation
 	
-	¦ ƒGƒ“ƒhƒ|ƒCƒ“ƒg‚ÍƒfƒtƒHƒ‹ƒg‚Åapi.xxxxx.xip.io‚É‚È‚éBƒ†[ƒU/ƒpƒXƒ[ƒh‚àã‹L‚ªƒfƒtƒHƒ‹ƒg‚ç‚µ‚¢
+	â€» ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§api.xxxxx.xip.ioã«ãªã‚‹ã€‚ãƒ¦ãƒ¼ã‚¶/ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚‚ä¸Šè¨˜ãŒãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚‰ã—ã„
 
-	cf target	Œ»İƒƒOƒCƒ“‚µ‚Ä‚¢‚éƒGƒ“ƒhƒ|ƒCƒ“ƒg‚âƒXƒy[ƒX
-	cf api		Œ»İƒƒOƒCƒ“‚µ‚Ä‚¢‚éƒGƒ“ƒhƒ|ƒCƒ“ƒg
+	cf target	ç¾åœ¨ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ã„ã‚‹ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆã‚„ã‚¹ãƒšãƒ¼ã‚¹
+	cf api		ç¾åœ¨ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ã„ã‚‹ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆ
 	
-	cf apps		Œ»İ‚ÌƒAƒvƒŠˆê——
-	cf delete	ƒAƒvƒŠíœ
+	cf apps		ç¾åœ¨ã®ã‚¢ãƒ—ãƒªä¸€è¦§
+	cf delete	ã‚¢ãƒ—ãƒªå‰Šé™¤
 
-›ƒAƒvƒŠPushÀŒ±
+â—‹ã‚¢ãƒ—ãƒªPushå®Ÿé¨“
 	cf push ptest -p phpinfo/ -b https://github.com/cloudfoundry/php-buildpack
 	
-›JavaƒAƒvƒŠ
-	RequestBroker.jar‚ğpush‚µ‚Ä‚İ‚é
-	MANIFEST.MF‚É no-route: true ƒvƒƒpƒeƒB‚ğİ’è
-	(QlFhttps://docs.cloudfoundry.org/buildpacks/java/java-tips.html#java-main)
+â—‹Javaã‚¢ãƒ—ãƒª
+	RequestBroker.jarã‚’pushã—ã¦ã¿ã‚‹
+	MANIFEST.MFã« no-route: true ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¨­å®š
+	(å‚è€ƒï¼šhttps://docs.cloudfoundry.org/buildpacks/java/java-tips.html#java-main)
 	
 	cf push myjava -p RequestBroker.jar --no-route
-	¦ --no-route‚ğ•t‚¯‚È‚¢‚Æpush‚ªI—¹‚µ‚È‚¢AMANIFEST.MF‚Ì‹Lq‚ªŒø‚¢‚Ä‚¢‚È‚¢?!
+	â€» --no-routeã‚’ä»˜ã‘ãªã„ã¨pushãŒçµ‚äº†ã—ãªã„ã€MANIFEST.MFã®è¨˜è¿°ãŒåŠ¹ã„ã¦ã„ãªã„?!
 	
-	ƒXƒ^ƒ“ƒhƒAƒƒ“ƒAƒvƒŠ‚È‚Ì‚Å•’Ê‚É“®‚¢‚½B
+	ã‚¹ã‚¿ãƒ³ãƒ‰ã‚¢ãƒ­ãƒ³ã‚¢ãƒ—ãƒªãªã®ã§æ™®é€šã«å‹•ã„ãŸã€‚
 	
-›NodeƒAƒvƒŠ
-	ƒTƒ“ƒvƒ‹(ŠÂ‹«•Ï”‚Ì’l‚©A3000ƒ|[ƒg‚ÅHelloWorld)
+â—‹Nodeã‚¢ãƒ—ãƒª
+	ã‚µãƒ³ãƒ—ãƒ«(ç’°å¢ƒå¤‰æ•°ã®å€¤ã‹ã€3000ãƒãƒ¼ãƒˆã§HelloWorld)
 
 	-------------------------------
 	var port = (process.env.PORT || 3000);
@@ -144,33 +144,33 @@ http://blog.cloudfoundry.gr.jp/2015/09/cf100apps-068-spring-boot-cf-service-brok
 
 	http.createServer(function (req, res) {
 	  res.writeHead(200, {'Content-Type': 'text/plain'});
-	  res.end('ƒnƒ[ World host=['+host+'] port=['+port+']\n');
+	  res.end('ãƒãƒ­ãƒ¼ World host=['+host+'] port=['+port+']\n');
 	}).listen(port, host);
 	-------------------------------
 
 	PUSH
 	cf p mynd -p nodeapp/ -b nodejs_buildpack
-	Ëpackage.json‚ª–³‚¢‚Æ“{‚ç‚ê‚é
-	  ‚Æ‚è‚ ‚¦‚¸package.json‚ğ“K“–‚Éì¬Anpm test‚ÅƒGƒ‰[‚É‚È‚ç‚È‚¢–‚ğŠm”F
-	Ä“xcf push‚·‚é‚ÆA‹N“®ƒAƒvƒŠ‚ª•s–¾‚ÆŒ¾‚í‚ê‚éB(cpackage.json‚Ì"script"‚Å‚à‚Å‚«‚é‚Á‚Û‚¢)
-	Ëmanifest.yml‚ğì¬B
+	â‡’package.jsonãŒç„¡ã„ã¨æ€’ã‚‰ã‚Œã‚‹
+	  ã¨ã‚Šã‚ãˆãšpackage.jsonã‚’é©å½“ã«ä½œæˆã€npm testã§ã‚¨ãƒ©ãƒ¼ã«ãªã‚‰ãªã„äº‹ã‚’ç¢ºèª
+	å†åº¦cf pushã™ã‚‹ã¨ã€èµ·å‹•ã‚¢ãƒ—ãƒªãŒä¸æ˜ã¨è¨€ã‚ã‚Œã‚‹ã€‚(â€¦package.jsonã®"script"ã§ã‚‚ã§ãã‚‹ã£ã½ã„)
+	â‡’manifest.ymlã‚’ä½œæˆã€‚
 	cf p mynd -p ./ -b nodejs_buildpack
-	¦ manifest.yml‚É‚Íƒrƒ‹ƒhƒpƒbƒN‚Ìw’è‚ª‚Å‚«‚éBcf p ‚É‚¢‚¿‚¢‚¿w’è‚µ‚È‚­‚Ä‚æ‚¢B
+	â€» manifest.ymlã«ã¯ãƒ“ãƒ«ãƒ‰ãƒ‘ãƒƒã‚¯ã®æŒ‡å®šãŒã§ãã‚‹ã€‚cf p æ™‚ã«ã„ã¡ã„ã¡æŒ‡å®šã—ãªãã¦ã‚ˆã„ã€‚
 	
-	Ú‘±Šm”FBApp‚ÍCF‚ÌŠÂ‹«•Ï”‚©‚ç“n‚³‚ê‚éPORT‚Ålisten‚µAŠO‚©‚çƒ|[ƒg80‚ÅÚ‘±‚Å‚«‚é(ƒ‹[ƒeƒBƒ“ƒO)
+	æ¥ç¶šç¢ºèªã€‚Appã¯CFã®ç’°å¢ƒå¤‰æ•°ã‹ã‚‰æ¸¡ã•ã‚Œã‚‹PORTã§listenã—ã€å¤–ã‹ã‚‰ãƒãƒ¼ãƒˆ80ã§æ¥ç¶šã§ãã‚‹(ãƒ«ãƒ¼ãƒ†ã‚£ãƒ³ã‚°)
 	lynx http://mynd.10.0.2.15.xip.io/
 	
-	ƒƒ‚Fpush‚É -p xxxxx/‚ÆƒfƒBƒŒƒNƒgƒŠw’è‚ğ‚·‚é‚Æ¸”s‚µ‚½B-p ./‚¾‚Æ‚¤‚Ü‚­‚¢‚­BNode.jsƒNƒZ‚ ‚èc
+	ãƒ¡ãƒ¢ï¼špushæ™‚ã« -p xxxxx/ã¨ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæŒ‡å®šã‚’ã™ã‚‹ã¨å¤±æ•—ã—ãŸã€‚-p ./ã ã¨ã†ã¾ãã„ãã€‚Node.jsã‚¯ã‚»ã‚ã‚Šâ€¦
 	
-›StaticFile(nginx)
-	Ql:https://docs.cloudfoundry.org/buildpacks/staticfile/index.html
+â—‹StaticFile(nginx)
+	å‚è€ƒ:https://docs.cloudfoundry.org/buildpacks/staticfile/index.html
 
-	“K“–‚ÈƒtƒHƒ‹ƒ_‚Éhtml‚â‚ç‚ğ’u‚­
-	Staticfile‚Æ‚¢‚¤ƒtƒ@ƒCƒ‹‚ğì¬(touch Staticfile‚Å—Ç‚¢)
+	é©å½“ãªãƒ•ã‚©ãƒ«ãƒ€ã«htmlã‚„ã‚‰ã‚’ç½®ã
+	Staticfileã¨ã„ã†ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆ(touch Staticfileã§è‰¯ã„)
 	cf p myhttp -p .
 	
-	nginx‚Ìİ’è‚ğƒJƒXƒ^ƒ}ƒCƒY‚µ‚½‚¢ê‡‚ÍA“¯‚¶ƒtƒHƒ‹ƒ_‚Énginx.conf‚ğ’u‚­B
-	ËGitHub‚ÌStaticfileƒrƒ‹ƒhƒpƒbƒN‚É‚ ‚énginx.conf‚ÌƒTƒ“ƒvƒ‹‚ğŠî‚ÉƒJƒXƒ^ƒ}ƒCƒY‚·‚é‚±‚Æ
+	nginxã®è¨­å®šã‚’ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸã„å ´åˆã¯ã€åŒã˜ãƒ•ã‚©ãƒ«ãƒ€ã«nginx.confã‚’ç½®ãã€‚
+	â‡’GitHubã®Staticfileãƒ“ãƒ«ãƒ‰ãƒ‘ãƒƒã‚¯ã«ã‚ã‚‹nginx.confã®ã‚µãƒ³ãƒ—ãƒ«ã‚’åŸºã«ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã™ã‚‹ã“ã¨
 	https://github.com/cloudfoundry/staticfile-buildpack/blob/master/conf/nginx.conf
 	
 	
