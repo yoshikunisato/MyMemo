@@ -1,0 +1,50 @@
+Fujitsu Cloud K5 メモ
+
+
+○CF ログイン
+cf login -a https://api.jp-east-1.paas-cf.cloud.global.fujitsu.com -u ユーザ名@契約番号 -o 契約番号 -s スペース名
+組織のスペースクウォータはデフォルト2G ⇒ 変更可能
+
+○Node
+cf push dataAPI -p . -m 256M -k 256M -b nodejs_buildpack
+
+○Staticfile
+cf push site -p . -m 256M -k 256M -b staticfile_buildpack
+
+○Java(jar)
+cf push requestBroker -p RequestBroker.jar -b java_buildpack -m 256M -k 256M --no-route
+※ buildpackを指定しないとstartしない
+
+○IaaS
+「サービスポータル ユーザーズガイド」に従う。マニュアル通りやらないとダメ。
+
+下記の順番
+	仮想ネットワーク作成
+	仮想ルータ作成
+	仮想ルータに外部ネットをゲートウェイ設定
+	仮想ルータにサブネット設定
+	仮想ネットと仮想ルータを接続
+	キーペア作成
+	グローバルIP確保
+	セキュリティグループ作成、ルール設定
+	仮想サーバ作成
+	仮想サーバへグローバルIP割り当て
+	
+	作成後、UbuntuのVMにsshでログインすると 'unable to resolve host 'となるので下記を追記(ただしdebian系固有の話)
+	(参考：http://www.debian.org/doc/manuals/debian-reference/ch05.en.html#_the_hostname_resolution)
+	/etc/hosts
+		127.0.1.1  hostname		←127.0.0.1ではない事に注意!!
+	
+
+☆K5 コレジャナイな点
+IaaS
+・ポータルはIEしか正しく表示できない、レスポンスが遅い(1つの操作で30秒～1分待つ)
+・入力値が適切じゃない場合にシステムエラーになる。戻ると入力値が消えている。
+・仮想マシンを立ち上げるまでが大変(AWS,Azureは簡単～♪)
+・ダッシュボードみたいなVMのメトリック監視画面があると良い
+
+PssS
+・CLIから見えるビルドパックが多くて良いが、サポート範囲は？
+
+共通
+・

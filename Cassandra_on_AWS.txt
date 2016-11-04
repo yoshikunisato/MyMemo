@@ -41,6 +41,9 @@ http://www.planetcassandra.org/cassandra-jp/
 	service cassandra start
 	service cassandra status
 
+	※ Fujitsu K5の場合
+		hostnameが解決できない状態(unable to resolve host)だとそもそもCassandraが起動できないので、/etc/hostsに追記		
+
 ○とりあえず動くか実験
 
 	CREATE KEYSPACE iot WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
@@ -78,9 +81,12 @@ CREATE TABLE sens (
 
 ○リモートからの接続
 	/etc/cassandra/cassandra.yaml
-		rpc_address: ec2-52-193-198-108.ap-northeast-1.compute.amazonaws.com
-	cassandra のリスタート
+		listen_address: ec2-52-193-198-108.ap-northeast-1.compute.amazonaws.com
+	cassandra のリスタート	
 	
+	※ connection refusedな時の確認
+		netstat -notap で9042(cqlsh)でlistenを確認
+		eth0のIPでlistenしていることを確認。127.0.0.1だとダメ。
 	
 ○認証の有効化
 	/etc/cassandra/cassandra.yaml
