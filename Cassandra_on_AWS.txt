@@ -13,8 +13,20 @@ http://www.planetcassandra.org/cassandra-jp/
 	ユーザ名は"ubuntu"
 	お約束：
 		apt-get update, apt-get upgrade
-	タイムゾーン設定
-		timedatectl set-timezone Asia/Tokyo
+		
+○タイムゾーン設定
+	timedatectl set-timezone Asia/Tokyo
+	export TZ=Asia/Tokyo
+	※ システム設定は上記でOKっぽいけど、TZは別に設定するほうが良いみたい(下記cqlshの例など)
+
+	K5のUbuntuで、cqlshすると下記の警告が出る。TZを設定してもtimestampが全てUTCで表示されるので'pytz'を追加する
+	Warning: Timezone defined and 'pytz' module for timezone conversion not installed. Timestamps will be displayed in UTC timezone.
+
+	sudo apt-get install python-setuptools
+	sudo easy_install pytz
+	
+	export TZ=Asia/Tokyo
+	してからcqlshでtimestampを見ると+0900で表示されるはず
 	
 ○必須ソフトウェア
 ・java8のインストール (Cassandra3.x系はJava8必須)
